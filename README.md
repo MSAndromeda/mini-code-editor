@@ -36,6 +36,9 @@ A lightweight in-browser code editor built with **vanilla JavaScript**, **HTML**
 
 ```
 📦 mini-code-editor
+├── .github/
+│   └── workflows/
+│       └── deploy.yml
 ├── public/
 ├── screenshots/
 ├── src/
