@@ -64,6 +64,14 @@ document.querySelector("#app").innerHTML = `
           >
             script.js
           </button>
+          <button
+            class="runCode"
+            role="run code"
+            aria-controls="run-code"
+            aria-selected="true"
+          >
+            Run
+          </button>
         </nav>
 
         <div class="editor-container">
@@ -102,22 +110,80 @@ setToggleButton(
   document.querySelectorAll(".code-editor")
 );
 
+// Editor Styling
+const customTheme = EditorView.theme({
+  "&": {
+    fontSize: "1.4rem",
+    height: "100%",
+  },
+});
+const localHtml = localStorage.getItem("html");
+const localCss = localStorage.getItem("css");
+const localJs = localStorage.getItem("js");
+console.log(localHtml, localCss, localJs);
+// Working Editors
 const htmlEditor = new EditorView({
-  doc: `<h1>Hello World</h1>`,
+  doc: localHtml != null ? localHtml : `<h1></h1>`,
   parent: document.getElementById("editor-html"),
-  extensions: [basicSetup, html()],
+  extensions: [basicSetup, html(), customTheme, EditorView.lineWrapping],
 });
 
 const cssEditor = new EditorView({
-  doc: `body{
-color: #4f46e5
+  doc:
+    localCss != null
+      ? localCss
+      : `body{
+background-color: #4f46e5;
+color: white;
 }`,
   parent: document.getElementById("editor-css"),
-  extensions: [basicSetup, css()],
+  extensions: [basicSetup, css(), customTheme, EditorView.lineWrapping],
 });
 
 const jsEditor = new EditorView({
-  doc: `console.log("Hello");`,
+  doc:
+    localJs != null
+      ? localJs
+      : `document.querySelector("h1").textContent = "Hello Baby";`,
   parent: document.getElementById("editor-js"),
-  extensions: [basicSetup, javascript()],
+  extensions: [basicSetup, javascript(), customTheme, EditorView.lineWrapping],
 });
+
+// Preview tab using iframe
+const previewTab = document.getElementById("live-preview");
+
+function previewCodeHandler(html, css, js) {
+  previewTab.srcdoc = `<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>${css}</style>
+    <title>Mini App</title>
+  </head>
+  <body>
+    ${html}
+    <script>${js}</script>
+  </body>
+</html>
+`;
+}
+
+const runBtn = document.querySelector(".runCode");
+
+runBtn.addEventListener("click", () => {
+  const htmlCode = htmlEditor.state.doc.toString();
+  const cssCode = cssEditor.state.doc.toString();
+  const jsCode = jsEditor.state.doc.toString();
+  previewCodeHandler(htmlCode, cssCode, jsCode);
+  localStorage.setItem("html", htmlCode);
+  localStorage.setItem("css", cssCode);
+  localStorage.setItem("js", jsCode);
+});
+
+previewCodeHandler(
+  htmlEditor.state.doc.toString(),
+  cssEditor.state.doc.toString(),
+  jsEditor.state.doc.toString()
+);

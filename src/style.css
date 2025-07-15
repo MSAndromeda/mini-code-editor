@@ -8,6 +8,7 @@
   --color-border: #e5e7eb;
   --color-tab-bg: #f9fafb;
   --color-tab-active: #e0e7ff;
+  --color-run-btn: rgb(92, 253, 43);
   --shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -17,7 +18,8 @@ body.dark {
   --color-primary: #818cf8;
   --color-border: #2d2d2d;
   --color-tab-bg: #1f1f1f;
-  --color-tab-active: #27272a;
+  --color-tab-active: #3c3c3d;
+  --color-run-btn: rgb(9, 201, 9);
   --shadow: 0 2px 6px rgba(255, 255, 255, 0.1);
 }
 /* ==============================
@@ -107,6 +109,18 @@ iframe#live-preview {
   transition: background 0.3s, color 0.3s;
 }
 
+.runCode {
+  background: none;
+  border: none;
+  padding: 0.5rem 1rem;
+  font: inherit;
+  cursor: pointer;
+  border-radius: 0.375rem;
+  background-color: var(--color-run-btn);
+  color: var(--color-text);
+  transition: background 0.3s, color 0.3s;
+}
+
 .tab[aria-selected="true"] {
   background-color: var(--color-tab-active);
   font-weight: 600;
@@ -117,18 +131,17 @@ iframe#live-preview {
    ============================== */
 .editor-container {
   flex: 1;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .code-editor {
   height: 100%;
 }
-
-.CodeMirror {
+/* 
+.cm-editor {
   height: 100%;
-  font-family: monospace;
-  font-size: 0.95rem;
-}
+  font-size: 1.2rem;
+} */
 
 /* ==============================
    💡 Utility Classes

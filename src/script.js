@@ -8,7 +8,7 @@ export function setTheme(element) {
 
 export function setToggleButton(btn, editors) {
   btn.addEventListener("click", function (e) {
-    if (e.target.nodeName !== "BUTTON") return;
+    if (e.target.classList[0] !== "tab") return;
 
     // button styling
     const buttons = btn.querySelectorAll(".tab");
